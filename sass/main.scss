@@ -1,0 +1,12 @@
+// Base
+
+@import "variables";
+
+
+body {
+    background-color: beige;
+}
+
+p {
+    color: $accent-color;
+}
