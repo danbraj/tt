@@ -1,4 +1,7 @@
 
-var ex = require('./Example/Greetings.js');
+const greet = require('./Example/Greetings.js');
+const path = require('path');
 
-console.log(ex.greetings('Daniel'));
+const pathObj = path.parse(__filename);
+
+console.log(`${pathObj.base} wrote ${greet('Daniel')}`);
