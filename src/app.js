@@ -1,9 +1,11 @@
-
+const chalk = require('chalk');
 const greet = require('./Example/Greetings.js');
 
 const isCLI = typeof window === 'undefined';
 
-console.log(`- Is it console?
-- ${(isCLI ? 'Yup' : 'Nope')}.`);
+const lg = (content) => console.log(chalk.gray(content));
 
-isCLI ? console.log(`> Console wrote ${greet('Daniel')}`) : null;
+lg(`- Is it console?
+- ${(isCLI ? chalk.green('Yup') : 'Nope')}.`);
+
+isCLI ? lg(chalk.yellow(`> Console wrote ${chalk.bold(greet('Daniel'))}`)) : null;
