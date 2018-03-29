@@ -1,7 +1,9 @@
 
 const greet = require('./Example/Greetings.js');
-const path = require('path');
 
-const pathObj = path.parse(__filename);
+const isCLI = typeof window === 'undefined';
 
-console.log(`${pathObj.base} wrote ${greet('Daniel')}`);
+console.log(`- Is it console?
+- ${(isCLI ? 'Yup' : 'Nope')}.`);
+
+isCLI ? console.log(`> Console wrote ${greet('Daniel')}`) : null;
