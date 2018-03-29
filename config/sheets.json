@@ -1,0 +1,42 @@
+[
+    {
+        "handle": "fn",
+        "description": "Szybkie notatki",
+        "path": "./../notes/szybkie-notatki.json",
+        "fields": [
+            "content", "additional"
+        ]
+    },
+    {
+        "handle": "hs",
+        "description": "Hasła",
+        "path": "./../notes/hasła.json",
+        "fields": [
+            "login", "password", "target"
+        ]
+    },
+    {
+        "handle": "ln",
+        "description": "Linki",
+        "path": "./../notes/linki.json",
+        "fields": [
+            "value", "description", "additional"
+        ]
+    },
+    {
+        "handle": "m",
+        "description": "Inne",
+        "path": "./../notes/inne.json",
+        "fields": [
+            "one", "two", "three", "four"
+        ]
+    },
+    {
+        "handle": "lg",
+        "description": "Logi",
+        "path": "./../notes/logi.json",
+        "fields": [
+            "date", "log"
+        ]
+    }
+]

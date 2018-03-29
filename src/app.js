@@ -1,11 +1,50 @@
-const chalk = require('chalk');
-const greet = require('./Example/Greetings.js');
+#! /usr/bin/env node
+console.log('- Is it console?');
+if (typeof window !== 'undefined') {
 
-const isCLI = typeof window === 'undefined';
+    console.log('- Nope.');
+    throw new Error("It isn't the console!");
 
-const lg = (content) => console.log(chalk.gray(content));
+} else {
 
-lg(`- Is it console?
-- ${(isCLI ? chalk.green('Yup') : 'Nope')}.`);
+    const chalk = require('chalk');
+    const cfg = require('./../config/sheets.json');
 
-isCLI ? lg(chalk.yellow(`> Console wrote ${chalk.bold(greet('Daniel'))}`)) : null;
+    console.log(`- ${chalk.green('Yup')}.`);
+  
+    // console.log(process.argv);    
+    const handle = process.argv[2];
+    const command = process.argv[3];
+
+    let note = '';
+    cfg.forEach(element => {
+        if (handle === element.handle) {
+            try {
+                note = require(element.path);
+            } catch (ex) {
+                console.log(chalk.bold.red(`\$ ${element.path} doesn't exist`));
+            }
+            return;
+        }
+    });
+
+    if (note !== '') {
+        console.log(note);
+    }
+}
+
+function getFields() {
+
+}
+
+function addRecord() {
+
+}
+
+function getRecords() {
+
+}
+
+function sortRecords() {
+
+}
