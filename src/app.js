@@ -1,49 +1,43 @@
 #! /usr/bin/env node
-const fs = require('fs');
-const chalk = require('chalk');
+const checkIfConsole = () => typeof window === 'undefined' ? false : true;
 
-console.log('- Is it console?');
-if (typeof window !== 'undefined') {
+if (!checkIfConsole) throw new Error("It isn't the console!");
 
-    console.log('- Nope.');
-    throw new Error("It isn't the console!");
+var chalk = require('chalk');
+var path = require("path");
+var fs = require('fs');
 
-} else {
+const cfg = require(path.resolve(__dirname, "../config/sheets.json"));
 
-    const cfg = require('./../config/sheets.json'); // FIXME: trzeba będzie ustalić ścieżkę bezwzględną
+// console.log(process.argv);    
+const handle = process.argv[2];
 
-    console.log(`- ${chalk.green('Yup')}.`);
-  
-    // console.log(process.argv);    
-    const handle = process.argv[2];
+let note = '';
+cfg.forEach(element => {
+    if (handle === element.handle) {
 
-    let note = '';
-    cfg.forEach(element => {
-        if (handle === element.handle) {
-
-            note = element;
-            try {
-                note.rows = require(element.path); // FIXME: wywala błąd, gdy plik jest jeszcze pusty, ale dodaje prawidłowo..
-            } catch (ex) {
-                console.log(chalk.bold.red(`\$ ${element.path} doesn't exist`));
-            }
-            return;
+        note = element;
+        try {
+            note.rows = JSON.parse(fs.readFileSync(path.resolve(__dirname, note.path), 'utf8') || '[]');
+        } catch (ex) {
+            console.log(chalk.bold.red(`\$ ${element.path} doesn't exist`));
         }
-    });
+        return;
+    }
+});
 
-    const command = process.argv[3];
+const command = process.argv[3];
 
-    if (note.rows !== '') {
-        // console.log(note);
-        if (command == "-a" || command == "add") {
-            addRecord(note);
-        } else if (command == "-f" || command == "fields") {
-            getFields(note);
-        } else if (command == "-s" || command == "sort") {
-            sortRecords(note, process.argv[4]);
-        } else {
-            getRecords(note);
-        }
+if (note !== '' && note.rows !== '') {
+    // console.log(note);
+    if (command == "-a" || command == "add") {
+        addRecord(note);
+    } else if (command == "-f" || command == "fields") {
+        getFields(note);
+    } else if (command == "-s" || command == "sort") {
+        getRecords(sortRecords(note, process.argv[4]));
+    } else {
+        getRecords(note);
     }
 }
 
@@ -52,9 +46,9 @@ function getFields(note) {
 }
 
 function addRecord(note) {
-    // FIXME: ścieżka do pliku, nie podoba się format
-    let data = JSON.parse(fs.readFileSync('notes/linki.json', 'utf8') || '[]'); // note.path
-    
+
+    let data = JSON.parse(fs.readFileSync(path.resolve(__dirname, note.path), 'utf8') || '[]');
+
     const dataArgs = process.argv.slice(4);
 
     if (dataArgs.length > note.fields.length) {
@@ -69,23 +63,28 @@ function addRecord(note) {
     console.log(row);
     data.push(row);
 
-    fs.writeFileSync('notes/linki.json', JSON.stringify(data, null, 2)); // note.path
+    fs.writeFileSync(path.resolve(__dirname, note.path), JSON.stringify(data, null, 2));
 }
 
 function getRecords(note) {
-    console.log(note);
+    console.log(`Notes: ${note.description}`);
+    console.log(note.fields.join('\t'));
+    note.rows.forEach(element => {
+        console.log(Object.values(element).join('\t'));
+    });
+    // console.log(note);
 }
 
 function sortRecords(note, column) {
-    const index = Number(column) >= note.fields.length ? 0 : Number(column);
+    const col = Number(column);
+    const index = col >= note.fields.length ? 0 : col;
     // console.log(index);
-    console.log(
-        note.rows.sort(function(a, b) {
-            if (a[note.fields[index]] < b[note.fields[index]])
-                return -1;
-            if (a[note.fields[index]] > b[note.fields[index]])
-                return 1;
-            return 0;
-        })
-    );
+    note.rows.sort(function (a, b) {
+        if (a[note.fields[index]] < b[note.fields[index]])
+            return -1;
+        if (a[note.fields[index]] > b[note.fields[index]])
+            return 1;
+        return 0;
+    });
+    return note;
 }
