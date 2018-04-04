@@ -9,6 +9,7 @@
   "author": "danbraj",
   "license": "MIT",
   "devDependencies": {
+    "chai": "^4.1.2",
     "mocha": "^5.0.5"
   }
 }
