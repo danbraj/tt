@@ -1,17 +1,16 @@
-const fs = require('fs');
-const path = require("path");
+const { readAppdata, writeAppdata } = require('./files-service');
+const { showFields, showItems } = require('./logs-service');
 
 const getFields = (note) => {
 
-    console.log(`\$ Fields: ${note.fields.join(', ')}`);
+    showFields(note.fields);
 }
 
 const addItem = (note) => {
 
-    let data = JSON.parse(fs.readFileSync(`${ROOT_DIR}/${note.path}`, 'utf8') || '[]');
+    const data = readAppdata(note.filename);
 
     const dataArgs = process.argv.slice(4);
-
     if (dataArgs.length > note.fields.length) {
         dataArgs.push(dataArgs.splice(note.fields.length - 1).join(' '));
     }
@@ -20,11 +19,9 @@ const addItem = (note) => {
     for (let i = 0; i < note.fields.length; i++) {
         row[note.fields[i]] = dataArgs[i] || '';
     }
-
-    console.log(row);
     data.push(row);
 
-    fs.writeFileSync(`${ROOT_DIR}/${note.path}`, JSON.stringify(data, null, 2));
+    writeAppdata(note.filename, data);
 }
 
 const getItems = (note) => {
@@ -32,11 +29,11 @@ const getItems = (note) => {
     showItems(note);
 }
 
-const sortItems = (note, column) => {
+const getSortedItems = (note, columnIndex) => {
 
-    const col = Number(column);
+    const col = +columnIndex;
     const index = col >= note.fields.length ? 0 : col;
-    // console.log(index);
+
     note.rows.sort(function (a, b) {
         if (a[note.fields[index]] < b[note.fields[index]])
             return -1;
@@ -44,17 +41,8 @@ const sortItems = (note, column) => {
             return 1;
         return 0;
     });
+
     showItems(note);
 }
 
-const showItems = (note) => {
-
-    console.log(`Notes: ${note.name}`);
-    console.log(note.fields.join('\t'));
-    note.rows.forEach(element => {
-        console.log(Object.values(element).join('\t'));
-    });
-    // console.log(note);
-}
-
-module.exports = { getFields, addItem, getItems, sortItems };
+module.exports = { getFields, addItem, getItems, getSortedItems };

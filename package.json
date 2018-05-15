@@ -1,18 +1,16 @@
 {
-  "name": "my-first-app",
-  "version": "0.1.0",
+  "name": "@danbraj/notes-cli",
+  "version": "0.1.1",
+  "author": "danbraj",
   "description": "first app in node.js",
-  "main": "./src/app.js",
+  "main": "./app.js",
+  "preferGlobal": true,
+  "bin": {
+    "tt": "./app.js"
+  },
+  "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "preferGlobal": true,
-  "bin": {
-    "tt": "src/app.js"
-  },
-  "author": "danbraj",
-  "license": "MIT",
-  "dependencies": {
-    "chalk": "^2.3.2"
-  }
+  "dependencies": { }
 }

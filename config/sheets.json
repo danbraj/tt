@@ -1,42 +1,26 @@
 [
     {
-        "handle": "fn",
+        "handle": "f",
         "name": "Szybkie notatki",
-        "path": "notes/szybkie-notatki.json",
+        "filename": "szybkie-notatki.json",
         "fields": [
             "content", "additional"
         ]
     },
     {
-        "handle": "hs",
+        "handle": "p",
         "name": "Hasła",
-        "path": "notes/hasła.json",
+        "filename": "hasła.json",
         "fields": [
             "login", "password", "target"
         ]
     },
     {
-        "handle": "ln",
+        "handle": "l",
         "name": "Linki",
-        "path": "notes/linki.json",
+        "filename": "linki.json",
         "fields": [
             "value", "description", "additional"
-        ]
-    },
-    {
-        "handle": "m",
-        "name": "Inne",
-        "path": "notes/inne.json",
-        "fields": [
-            "one", "two", "three", "four"
-        ]
-    },
-    {
-        "handle": "lg",
-        "name": "Logi",
-        "path": "notes/logi.json",
-        "fields": [
-            "date", "log"
         ]
     }
 ]
