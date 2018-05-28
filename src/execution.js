@@ -1,6 +1,8 @@
+const readline = require('readline');
 const cfg = require('./../config/sheets.json');
 const { readAppdata } = require('./files-service');
 const { addItem, getFields, getSortedItems, getItems } = require('./notes-service');
+const { showAppInfo } = require('./logs-service');
 
 const task = () => {
 
@@ -21,11 +23,11 @@ const task = () => {
 
     if (note !== null && note.row !== null) {
         // console.log(note);
-        if (command == "-a" || command == "add") {
+        if (command == "a" || command == "add") {
             addItem(note);
-        } else if (command == "-f" || command == "fields") {
+        } else if (command == "f" || command == "fields") {
             getFields(note);
-        } else if (command == "-s" || command == "sort") {
+        } else if (command == "s" || command == "sort") {
             getSortedItems(note, sortColumnIdx);
         } else {
             getItems(note);
@@ -35,7 +37,23 @@ const task = () => {
 
 const run = () => {
 
-    console.log('TODO: to implement');
+    const r = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    showAppInfo();
+
+    let i = 1;
+    let notesList = cfg.map(element => `[${i++}] ${element.name} (${element.handle})`);
+
+    r.question(`${notesList.join('\n')}\nChoose notes: `, (action) => {
+        // TODO: choose action
+        // r.question('Enter values (separator ","): ', (value) => {
+            r.close();
+        // });
+    });
+
 };
 
 module.exports = { task, run };

@@ -12,4 +12,13 @@ const showItems = (note) => {
     });
 };
 
-module.exports = { showFields, showItems };
+const showAppInfo = () => {
+    console.log(`
+notes-cli @ danbraj
+
+Welcome to the Notes CLI app! 
+Version: 0.0.1.
+`);
+}
+
+module.exports = { showFields, showItems, showAppInfo };
