@@ -1,16 +1,21 @@
 const expect = require('chai').expect;
 
-const { readAppdata, writeAppdata } = require('./../src/files-service');
+const { showFields, showItems } = require('./../src/logs-service');
 
 describe('Logs service module', function () {
 
-    it('"readAppdata" should be function variable', function () {
+    describe('Check correctness functions types', function() {
 
-        expect(readAppdata).to.be.a('function');
+        it('"showFields" should be function variable', function () {
+
+            expect(showFields).to.be.a('function');
+        });
+
+        it('"showItems" should be function variable', function () {
+
+            expect(showItems).to.be.a('function');
+        });
+
     });
 
-    it('"writeAppdata" should be function variable', function () {
-
-        expect(writeAppdata).to.be.a('function');
-    });
 });
