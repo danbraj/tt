@@ -1,4 +1,3 @@
-#! /usr/bin/env node
 if (!checkIfConsole) throw new Error("It isn't the console!");
 
 const { run, task } = require('./src/execution');

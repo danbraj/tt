@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 
-const { showFields, showItems } = require('./../src/logs-service');
+const { showFields, showItems, showAppInfo } = require('./../src/logs-service');
 
 describe('Logs service module', function () {
 
@@ -14,6 +14,11 @@ describe('Logs service module', function () {
         it('"showItems" should be function variable', function () {
 
             expect(showItems).to.be.a('function');
+        });
+
+        it('"showAppInfo" should be function variable', function () {
+
+            expect(showAppInfo).to.be.a('function');
         });
 
     });

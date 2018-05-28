@@ -1,12 +1,12 @@
 {
   "name": "@danbraj/notes-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "danbraj",
   "description": "first app in node.js",
   "main": "./app.js",
   "preferGlobal": true,
   "bin": {
-    "tt": "./app.js"
+    "tt": "./bin/app"
   },
   "license": "MIT",
   "scripts": {
