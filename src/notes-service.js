@@ -1,48 +1,37 @@
 const { readAppdata, writeAppdata } = require('./files-service');
-const { showFields, showItems } = require('./logs-service');
 
-const getFields = (note) => {
+const addItem = (notes) => {
 
-    showFields(note.fields);
-}
-
-const addItem = (note) => {
-
-    const data = readAppdata(note.filename);
+    const data = readAppdata(notes.filename);
 
     const dataArgs = process.argv.slice(4);
-    if (dataArgs.length > note.fields.length) {
-        dataArgs.push(dataArgs.splice(note.fields.length - 1).join(' '));
+    if (dataArgs.length > notes.fields.length) {
+        dataArgs.push(dataArgs.splice(notes.fields.length - 1).join(' '));
     }
 
     let row = {};
-    for (let i = 0; i < note.fields.length; i++) {
-        row[note.fields[i]] = dataArgs[i] || '';
+    for (let i = 0; i < notes.fields.length; i++) {
+        row[notes.fields[i]] = dataArgs[i] || '';
     }
     data.push(row);
 
-    writeAppdata(note.filename, data);
+    writeAppdata(notes.filename, data);
 }
 
-const getItems = (note) => {
-
-    showItems(note);
-}
-
-const getSortedItems = (note, columnIndex) => {
+const getSortedNotesByColumnIdx = (notes, columnIndex) => {
 
     const col = +columnIndex;
-    const index = col >= note.fields.length ? 0 : col;
+    const index = col >= notes.fields.length ? 0 : col;
 
-    note.rows.sort(function (a, b) {
-        if (a[note.fields[index]] < b[note.fields[index]])
+    notes.rows.sort(function (a, b) {
+        if (a[notes.fields[index]] < b[notes.fields[index]])
             return -1;
-        if (a[note.fields[index]] > b[note.fields[index]])
+        if (a[notes.fields[index]] > b[notes.fields[index]])
             return 1;
         return 0;
     });
 
-    showItems(note);
+    return notes;
 }
 
-module.exports = { getFields, addItem, getItems, getSortedItems };
+module.exports = { addItem, getSortedNotesByColumnIdx };

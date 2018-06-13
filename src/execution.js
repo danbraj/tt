@@ -1,20 +1,18 @@
-const readline = require('readline');
 const cfg = require('./../config/sheets.json');
 const { readAppdata } = require('./files-service');
-const { addItem, getFields, getSortedItems, getItems } = require('./notes-service');
-const { showAppInfo } = require('./logs-service');
-const { readInputs } = require('./readline-service');
+const { addItem, getSortedNotesByColumnIdx } = require('./notes-service');
+const { showFields, showItems, showAppInfo } = require('./logs-service');
 
 const task = () => {
 
     const handle = process.argv[2];
 
-    let note = null;
+    let notes = null;
     cfg.forEach(element => {
         if (handle === element.handle) {
 
-            note = element;
-            note.rows = readAppdata(note.filename);
+            notes = element;
+            notes.rows = readAppdata(notes.filename);
             return;
         }
     });
@@ -22,22 +20,32 @@ const task = () => {
     const command = process.argv[3];
     const sortColumnIdx = process.argv[4];
 
-    if (note !== null && note.row !== null) {
+    if (notes !== null && notes.row !== null) {
         // console.log(note);
         if (command == "a" || command == "add") {
-            addItem(note);
+
+            addItem(notes);
+
         } else if (command == "f" || command == "fields") {
-            getFields(note);
+
+            showFields(notes);
+
         } else if (command == "s" || command == "sort") {
-            getSortedItems(note, sortColumnIdx);
+
+            showItems(getSortedNotesByColumnIdx(notes, sortColumnIdx));
+
         } else {
-            getItems(note);
+
+            showItems(notes);
+
         }
     }
 };
 
 const run = () => {
 
+    const { readInputs } = require('./readline-service');
+    
     showAppInfo();
 
     let i = 1;

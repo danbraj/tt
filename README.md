@@ -9,4 +9,6 @@
 
 ## Usage
 
+`[env-var] [notes-handle] [action] [...values]`
+
 TODO:
