@@ -3,6 +3,7 @@ const cfg = require('./../config/sheets.json');
 const { readAppdata } = require('./files-service');
 const { addItem, getFields, getSortedItems, getItems } = require('./notes-service');
 const { showAppInfo } = require('./logs-service');
+const { readInputs } = require('./readline-service');
 
 const task = () => {
 
@@ -37,48 +38,13 @@ const task = () => {
 
 const run = () => {
 
-    const r = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-
     showAppInfo();
 
     let i = 1;
     let notesList = cfg.map(element => `[${i++}] ${element.name} (${element.handle})`);
 
-    r.question(`${notesList.join('\n')}\nChoose notes: `, (notes) => {
+    readInputs(notesList, inputs => console.log(inputs));
 
-        r.question(`[1] Show\n[2] Add\n[3] Sort by\n[4] Get fields\nChoose action: `, (action) => {
-
-            const a = +action;
-            switch (a) {
-                case 1:
-                    console.log('action 1');
-                    break;
-                case 2:
-                    r.question('Enter values (separator " "): ', (content) => {
-                        console.log(`action 2 - ${content}`);
-                        r.close();
-                    });
-                    break;
-                case 3:
-                    r.question('Sort by index: ', (idx) => {
-                        console.log(`action 3 - ${idx}`);
-                        r.close();
-                    });
-                    break;
-                case 4:
-                    console.log('action 4');
-                    break;
-            
-                default:
-                    break;
-            };
-            a != 2 && a != 3 ? r.close() : null;
-        });
-
-    });
 };
 
 module.exports = { task, run };
